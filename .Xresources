@@ -31,21 +31,33 @@ URxvt.transparent:true
 !URxvt.shading:20
 URxvt.intensityStyles: false
 
-URxvt.perl-ext-common: default,matcher,-clipboard,font-size
+URxvt.perl-ext-common: default,matcher,font-size
 URxvt.url-launcher: /usr/bin/google-chrome-stable
 URxvt.matcher.button: 1
 
-!复制、粘贴重新映射失败
-!URxvt.clipboard.autocopy: true
-!Urxvt.keysym.C-S-c: perl:clipboard:copy
-!Urxvt.keysym.C-S-v: perl:clipboard:paste
+! 实现ctrl+shift+c/v的复制粘贴
+! https://unix.stackexchange.com/questions/444773/how-to-disable-the-ctrlshift-binding-iso-14755-in-urxvt
+! https://unix.stackexchange.com/questions/294337/rebinding-ctrl-alt-cv-to-ctrl-shift-cv-in-urxvt-9-20
+URxvt.iso14755: false
+URxvt.iso14755_52: false
 
-!https://github.com/majutsushi/urxvt-font-size
-!字体大小设置
+! 一定要写全名及大写的C/V,否则无效
+! Shift/Control 顺序无关
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+
+
+! 禁用之前的复制粘贴方案
+URxvt.keysym.Control-Meta-c: builtin-string:
+URxvt.keysym.Control-Meta-v: builtin-string:
+
+! https://github.com/majutsushi/urxvt-font-size
+! 字体大小调整
 URxvt.keysym.C-Up:     font-size:increase
 URxvt.keysym.C-Down:   font-size:decrease
 URxvt.keysym.C-equal:  font-size:reset
 
+! 背景透明
 URxvt.tintColor: lightgray
 URxvt.shading: 60
 URxvt.scrollBar_right: true
