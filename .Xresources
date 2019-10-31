@@ -23,7 +23,7 @@ URxvt.saveLines:100
 URxvt.borderLess:false
 
 !URxvt.allow_bold:false
-URxvt.font:xft:Monaco:style=Regular:antialias=false:size=12,xft:Source Han Sans CN:style=Regular:size=12
+URxvt.font:xft:Monaco:style=Regular:antialias=false:size=12,xft:WenQuanYi Micro Hei Mono:regular:size=12:minspace=true,xft:Source Han Sans CN:style=Regular:size=12
 URxvt.boldfont:xft:Source Code Pro:style=Regular:antialias=true:size=12,xft:Source Han Sans CN:style=Regular:size=12
 
 !URxvt.inheritPixmap:false
