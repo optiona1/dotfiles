@@ -3,7 +3,7 @@
 " date 2019年 11月 01日 星期五 09:49:20 CST
 
 " 安装包管理器
-" curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+" curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 "     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " 指定插件目录
 " -对于Neovim：stdpath（'data'）. '/ plugged'
@@ -12,7 +12,18 @@
 call plug#begin('~/.vim/plugged')
 
 " 确保使用单引号
+" 主题插件
 Plug 'jacoborus/tender.vim'
+
+" 括号匹配
+Plug 'jiangmiao/auto-pairs'
+
+" 状态栏
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" 文件系统浏览器 
+Plug 'scrooloose/nerdtree'
 
 " 初始化插件系统
 call plug#end()
@@ -84,3 +95,7 @@ set number
 " 设置主题
 colorscheme tender
 
+" 映射NERDTree
+" 当按 \+e 时 vim 打开 NERDTree；按 \+f vim 会打开 NERDTree 并定位到当前文件
+nnoremap <silent> <leader>e :NERDTreeToggle<cr>
+nnoremap <silent> <leader>f :NERDTreeFind<cr>
