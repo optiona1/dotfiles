@@ -2,6 +2,9 @@
 " 参考 https://zhuanlan.zhihu.com/p/69725463
 " date 2019年 11月 01日 星期五 09:49:20 CST
 
+" 
+"let g:python3_host_prog='/usr/bin/python3'
+
 " 安装包管理器
 " curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
 "     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -24,6 +27,18 @@ Plug 'vim-airline/vim-airline-themes'
 
 " 文件系统浏览器 
 Plug 'scrooloose/nerdtree'
+
+" Python 代码折叠
+Plug 'tmhedberg/SimpylFold'
+
+" PEP8 缩进
+Plug 'vim-scripts/indentpython.vim'
+
+" 自动补全
+Plug 'Valloric/YouCompleteMe'
+
+" 自动输入法切换
+Plug 'zhmars/vim-ibus', {'as': 'ibus'}
 
 " 初始化插件系统
 call plug#end()
@@ -87,15 +102,67 @@ set number
 
 " 开启 24 位真彩色支持
 " 24位真彩色信息请参考 https://gist.github.com/XVilka/8346728
-" 在我的背景下太丑，所以关闭
-"if (has("termguicolors"))
-"    set termguicolors
+" 在我的背景下太丑，所以关闭, 应该是我的 terminal 不支持真彩色的原因
+"if $COLORTERM == 'truecolor'
+"	set termguicolors
+"	colorscheme tender
+"else
+"	set term=urxvt
+"	set t_Co=256
 "endif
 
 " 设置主题
+set termguicolors
 colorscheme tender
 
 " 映射NERDTree
 " 当按 \+e 时 vim 打开 NERDTree；按 \+f vim 会打开 NERDTree 并定位到当前文件
 nnoremap <silent> <leader>e :NERDTreeToggle<cr>
 nnoremap <silent> <leader>f :NERDTreeFind<cr>
+
+" 重新映射分割窗口快捷键
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" 开启折叠功能
+set foldmethod=indent
+set foldlevel=99
+
+" 将折叠快捷键映射到 空格键
+nnoremap <space> za
+
+" 标示不必要的空白字符
+highlight BadWhitespace guifg=gray guibg=red ctermfg=gray ctermbg=red
+autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" Python 虚拟环境支持
+python3 << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+	project_base_dir = os.environ['VIRTUAL_ENV']
+	activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+	execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+" 隐藏 NERDTree 中的 .pyc 文件
+let NERDTreeIgnore=['\.pyc$', '\~$', '__pycache__']
+
+" 自动补全中跳转的定义，Ctrl+o 跳回
+nnoremap <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" """"""""""""""
+" 跳转到关键字的定义处，<C-]>
+" 回退 <C-t>
+" """"""""""""""
+" 映射 F5 来创建 ctags 索引
+"nnoremap <f5> :ctags -R<CR>
+
+" 在每次保存文件时自动执行 ctags
+"autocmd BufWritePost *.py call system("ctags -R")
+
+let g:ibus#layout = 'xkb:us::eng'
+let g:ibus#engine = 'rime'
+
